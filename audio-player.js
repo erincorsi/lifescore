@@ -1,365 +1,266 @@
-document.addEventListener("DOMContentLoaded", function() {
-var moodTracks = [
-  {
-    id: 'focus-audio-button',
-    name: 'Focus',
-    icon: 'focus-icon',
-    modules: [
-      {
-        name: 'Glass Bead Game',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      {
-        name: 'Meaningful Thoughts',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      {
-        name: 'Pen to Paper',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      // More modules...
-    ]
+let selectedMood;
+let selectedEnvironment;
+let previousEnvironment;
+let audio = new Audio(); // Default, silent Audio object
+let selectedModule;
+
+// Map of moods and environments to audio files
+const audioMap = {
+  focus: {
+    glass_bead_game: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Cavern.mp3"
+    },
+    meaningful_thoughts: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Cavern.mp3"
+    },
+    pen_to_paper: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_PenToPaper%20%2B%20InsideCavern.mp3"
+    }
   },
-  {
-    id: 'sleep-audio-button',
-    name: 'Sleep',
-    icon: 'sleep-icon',
-    modules: [
-      {
-        name: 'Campfire',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'hhttps://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      {
-        name: 'Drift Off',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      {
-        name: 'Clouds',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20Cavern.mp3'
-          },
-        ]
-      },
-        {
-        name: 'Space',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20Forest.mp3'
-          },
-        ]
-      },
-      // More modules...
-    ]
+  sleep: {
+    campfire: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Campfire%20%2B%20InsideCavern.mp3"
+    },
+    drift_off: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_DriftOff%20%2B%20InsideCavern.mp3"
+    },
+    clouds: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Nuages%20%2B%20InsideCavern.mp3"
+    },
+    space: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FSLEEP%20%2B%20EV%2FSLEEP_Space%20%2B%20InsideCavern.mp3"
+    }
   },
- {
-    id: 'energize-audio-button',
-    name: 'Energize',
-    icon: 'energize-icon',
-    modules: [
-      {
-        name: 'Dig Deep',
-        audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_DigDeep_2023-06-28_23_36_32.mp3'
-          },
-      {
-        name: 'Endless Summer',
-        audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_EndlessSummer_2023-06-28_23_41_26.mp3'
-          },
-      {
-        name: 'Free Solo',
-        audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_FreeSolo_2023-06-29_00_03_53.mp3'
-          },
-        {
-        name: 'Endless Summer',
-        audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_EndlessSummer_2023-06-28_23_41_26.mp3'
-          },
-        ]
-      },
-      // More modules...
- {
-    id: 'chill-audio-button',
-    name: 'Chill',
-    icon: 'chill-icon',
-    modules: [
-      {
-        name: 'Easy Breezy',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      {
-        name: 'IO',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      {
-        name: 'New Vintage',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-        {
-        name: 'Osmosis',
-        variations: [
-          {
-            environment: 'Forest',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20Forest.mp3'
-          },
-          {
-            environment: 'Ocean',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20Ocean.mp3'
-          },
-          {
-            environment: 'Mountain',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20Mountain.mp3'
-          },
-          {
-            environment: 'Cavern',
-            audio: 'https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20InsideCavern.mp3'
-          },
-        ]
-      },
-      // More modules...
-    ]
+  energize: {
+    dig_deep:
+      "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_DigDeep_2023-06-28_23_36_32.mp3",
+    endless_summer:
+      "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_DigDeep_2023-06-28_23_36_32.mp3",
+    free_solo:
+      "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_FreeSolo_2023-06-29_00_03_53.mp3",
+    kitesurfing:
+      "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FENERGY_Kitesurfing_2023-06-28_23_44_54.mp3",
+    dune_racer:
+      "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FENERGY%20%28no%20EV%29%2FPOWER_DuneRacer_2023-06-29_00_13_53.mp3"
+
   },
-  // More moods...
-];
-  function stopAllAudio(tracks) {
-    tracks.forEach(function(track) {
-      track.modules.forEach(function(module) {
-        module.variations.forEach(function(variation) {
-          if (variation.audioObj) {
-            variation.audioObj.pause();
-            variation.audioObj.currentTime = 0;
-          }
+  chill: {
+    easy_breezy: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_EasyBreezy%20%2B%20InsideCavern.mp3"
+    },
+    io: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_IO%20%2B%20InsideCavern.mp3"
+    },
+    new_vintage: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_NewVintage%20%2B%20InsideCavern.mp3"
+    },
+    osmosis: {
+      forest:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20Forest.mp3",
+      ocean:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20Ocean.mp3",
+      mountain:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20Mountain.mp3",
+      cavern:
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FCHILL%20%2B%20EV%2FCHILL_Osmosis%20%2B%20InsideCavern.mp3"
+    }
+  }
+  // ... more moods, modules, and environments
+};
+
+// Listen for mood selection changes
+document.querySelectorAll('input[name="mood"]').forEach(function (radio) {
+  radio.addEventListener("change", function () {
+    selectedMood = this.value;
+
+    if (selectedMood === "energize") {
+      // Disable environment radio buttons
+      document
+        .querySelectorAll('input[name="environment"]')
+        .forEach(function (radio) {
+          radio.disabled = true;
         });
-      });
+      selectedEnvironment = null; // Since there are no environments for "energize"
+    } else {
+      // Enable environment radio buttons
+      document
+        .querySelectorAll('input[name="environment"]')
+        .forEach(function (radio) {
+          radio.disabled = false;
+        });
+      selectedEnvironment = previousEnvironment; // Reapply the previously selected environment
+    }
+
+    playAudio();
+  });
+});
+
+// Listen for environment selection changes
+document
+  .querySelectorAll('input[name="environment"]')
+  .forEach(function (radio) {
+    radio.addEventListener("change", function () {
+      selectedEnvironment = this.value;
+      previousEnvironment = this.value; // Update the previous environment
+      playAudio();
     });
+  });
+
+function playAudio() {
+  let audioFile;
+  let randomModule;
+
+  if (selectedMood) {
+    let moodModules = audioMap[selectedMood];
+    let moduleNames = Object.keys(moodModules);
+    randomModule = moduleNames[Math.floor(Math.random() * moduleNames.length)];
+
+    if (selectedMood === "energize") {
+      // Since there are no environments for "energize", just select the audioFile
+      audioFile = moodModules[randomModule];
+    } else if (selectedEnvironment) {
+      // If the mood is not "energize", we check for selectedEnvironment
+      audioFile = moodModules[randomModule][selectedEnvironment];
+    }
   }
 
-  function setupTrackListener(tracks) {
-    tracks.forEach(function(track) {
-      var button = document.getElementById(track.id);
+  if (audioFile) {
+    audio.pause();
+    audio.src = audioFile;
+    audio.play();
+    selectedModule = randomModule;
+    updateDisplay();
+  } else {
+    console.log(
+      "Please select a mood. If the mood is not 'energize', please also select an environment."
+    );
+  }
+}
 
-      if (!button) {
-        console.error(`No button found with ID: ${track.id}`);
-        return;
-      }
+function formatText(text) {
+  // Check if text is defined before trying to format it
+  if (text) {
+    // Replace underscores with spaces
+    let newText = text.replace(/_/g, " ");
+    // Convert to title case
+    newText = newText
+      .toLowerCase()
+      .split(" ")
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
 
-      button.addEventListener('click', function(e) {
-        e.preventDefault();
+    return newText;
+  } else {
+    // If text is undefined, return an empty string or a default value
+    return "";
+  }
+}
 
-        stopAllAudio(tracks);
+function updateDisplay() {
+  const moodDisplay = document.getElementById("mood-display");
+  const moduleDisplay = document.getElementById("module-display");
 
-        var randomModule = track.modules[Math.floor(Math.random() * track.modules.length)];
+  let formattedMood = formatText(selectedMood);
 
-        document.getElementById('mood-category').textContent = track.name;
-        document.getElementById('module-name').textContent = randomModule.name;
-
-        var moodIconElem = document.getElementById('mood-category-icon');
-        var icon = document.getElementById(track.icon);
-        if (moodIconElem && icon) moodIconElem.innerHTML = icon.outerHTML;
-
-        var environmentSelector = document.getElementById('environment-selector');
-        environmentSelector.innerHTML = '';
-
-        randomModule.variations.forEach(function(variation, index) {
-          var option = document.createElement('option');
-          option.textContent = variation.environment;
-          option.value = index;
-          environmentSelector.appendChild(option);
-        });
-
-        environmentSelector.onchange = function() {
-          var selectedVariation = randomModule.variations[this.value];
-
-          if (selectedVariation.audioObj) {
-            selectedVariation.audioObj.pause();
-            selectedVariation.audioObj.currentTime = 0;
-          }
-
-          document.getElementById('environment-category').textContent = selectedVariation.environment;
-
-          selectedVariation.audioObj = new Audio(selectedVariation.audio);
-          selectedVariation.audioObj.addEventListener('error', () => {
-            console.error(`Failed to load audio: ${selectedVariation.audio}`);
-          });
-
-          selectedVariation.audioObj.play().catch(error => {
-            console.error('Error:', error);
-          });
-        };
-
-        environmentSelector.dispatchEvent(new Event('change'));
-
-        var isEnergizeTrack = track.name === 'Energize';
-        moodTracks.forEach(function(moodTrack) {
-          var moodButton = document.getElementById(moodTrack.id);
-          if (moodButton) moodButton.disabled = isEnergizeTrack;
-        });
-
-        // Check the clicked radio button
-        button.checked = true;
-      });
-    });
+  // Call formatText only when updating moduleDisplay
+  if (selectedModule) {
+    let formattedModule = formatText(selectedModule);
+    moduleDisplay.textContent = `${formattedModule}`;
   }
 
-  setupTrackListener(moodTracks);
+  moodDisplay.textContent = `${formattedMood}`;
+}
+
+let togglePlaybackButton = document.getElementById("toggle-playback");
+
+// Check if the audio is currently playing
+function isAudioPlaying(audio) {
+  return !audio.paused;
+}
+
+// Attach a click event listener to the button
+togglePlaybackButton.addEventListener("click", function () {
+  if (isAudioPlaying(audio)) {
+    // If the audio is playing, pause it
+    audio.pause();
+    // Change the button text to "Resume"
+    this.textContent = "Resume";
+  } else {
+    // If the audio is paused, play it
+    audio.play();
+    // Change the button text to "Pause"
+    this.textContent = "Pause";
+  }
 });
