@@ -244,6 +244,8 @@ function updateDisplay() {
 }
 
 let togglePlaybackButton = document.getElementById("toggle-playback");
+let playIcon = document.getElementById("play-icon");
+let pauseIcon = document.getElementById("pause-icon");
 
 // Check if the audio is currently playing
 function isAudioPlaying(audio) {
@@ -255,12 +257,14 @@ togglePlaybackButton.addEventListener("click", function () {
   if (isAudioPlaying(audio)) {
     // If the audio is playing, pause it
     audio.pause();
-    // Change the button text to "Resume"
-    this.textContent = "Resume";
+    // Hide the pause icon and show the play icon
+    pauseIcon.style.display = "none";
+    playIcon.style.display = "block";
   } else {
     // If the audio is paused, play it
     audio.play();
-    // Change the button text to "Pause"
-    this.textContent = "Pause";
+    // Hide the play icon and show the pause icon
+    playIcon.style.display = "none";
+    pauseIcon.style.display = "block";
   }
 });
