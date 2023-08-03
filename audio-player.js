@@ -246,6 +246,8 @@ function updateDisplay() {
 let togglePlaybackButton = document.getElementById("toggle-playback");
 let playIcon = document.getElementById("play-icon");
 let pauseIcon = document.getElementById("pause-icon");
+let animationElement = document.getElementById("animation-element");
+
 
 // Check if the audio is currently playing
 function isAudioPlaying(audio) {
@@ -253,9 +255,9 @@ function isAudioPlaying(audio) {
 }
 
 // Set initial states
-animationElement.style.display = "none";
+animationElement.style.display = "block";
 pauseIcon.style.display = "none";
-playIcon.style.display = "block";
+playIcon.style.display = "none";
 
 
 // Attach a click event listener to the button
