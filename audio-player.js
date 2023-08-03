@@ -252,19 +252,51 @@ function isAudioPlaying(audio) {
   return !audio.paused;
 }
 
+// Set initial states
+animationElement.style.display = "none";
+pauseIcon.style.display = "none";
+playIcon.style.display = "block";
+
+
 // Attach a click event listener to the button
 togglePlaybackButton.addEventListener("click", function () {
   if (isAudioPlaying(audio)) {
     // If the audio is playing, pause it
     audio.pause();
-    // Hide the pause icon and show the play icon
+    // Hide the pause icon and animation, show the play icon
     pauseIcon.style.display = "none";
     playIcon.style.display = "block";
+    animationElement.style.display = "none";
+    gsap.to(playIcon, { duration: 0.5, autoAlpha: 1 });
+    gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 0 });
+    gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
   } else {
     // If the audio is paused, play it
     audio.play();
-    // Hide the play icon and show the pause icon
+    // Hide the play icon, show the pause icon and animation
     playIcon.style.display = "none";
-    pauseIcon.style.display = "block";
+    animationElement.style.display = "block";
+    gsap.to(playIcon, { duration: 0.5, autoAlpha: 0 });
+    gsap.to(animationElement, { duration: 0.5, autoAlpha: 1 });
+  }
+});
+
+// Attach a hover event listener to the animation element
+animationElement.addEventListener("mouseover", function () {
+  // On hover, hide the animation and show the pause button
+  animationElement.style.display = "none";
+  pauseIcon.style.display = "block";
+  gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 1 });
+  gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
+});
+
+// Attach a mouseout event listener to the pause button
+pauseIcon.addEventListener("mouseout", function () {
+  // If the audio is playing, hide the pause button and show the animation
+  if (isAudioPlaying(audio)) {
+    pauseIcon.style.display = "none";
+    animationElement.style.display = "block";
+    gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 0, delay: 0.2 });
+    gsap.to(animationElement, { duration: 0.5, autoAlpha: 1, delay: 0.2 });
   }
 });
