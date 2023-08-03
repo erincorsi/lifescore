@@ -247,12 +247,13 @@ function updateDisplay() {
 let togglePlaybackButton = document.getElementById("toggle-playback");
 let playIcon = document.getElementById("play-icon");
 let pauseIcon = document.getElementById("pause-icon");
+let animationElement = document.getElementById("animation-element");
+
 
 // Check if the audio is currently playing
 function isAudioPlaying(audio) {
   return !audio.paused;
 }
-
 
 // Set initial states
 animationElement.style.display = "block";
@@ -302,5 +303,3 @@ pauseIcon.addEventListener("mouseout", function () {
     gsap.to(animationElement, { duration: 0.5, autoAlpha: 1, delay: 0.2 });
   }
 });
-
-
