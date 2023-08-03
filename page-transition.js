@@ -132,9 +132,10 @@ function removeFullScreenMedialPlayer() {
   document.querySelectorAll('.fs-radio_column').forEach(target => target.classList.remove('is-full-screen'));
   document.querySelectorAll('.menu-trigger').forEach(target => target.classList.remove('is-full-screen'));
   document.querySelectorAll('.music-player_card-playing').forEach(target => target.classList.remove('is-full-screen'));
-  document.querySelectorAll('.fs-form_block').forEach(target => target.classList.remove('is-full-screen'));
-  document.querySelectorAll('.fs-form_block').forEach(target => target.classList.remove('quiz_radio-field'));
-  document.querySelectorAll('.radio-label').forEach(target => target.classList.remove('quiz_radio-field'));
+  document.querySelectorAll('.fs-grid_block').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.fs-grid_block').forEach(target => target.classList.add('hide'));
+  document.querySelectorAll('.quiz_radio-field').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.radio-label').forEach(target => target.classList.remove('is-full-screen'));
   document.querySelectorAll('.lifescore_logo-wrapper').forEach(target => target.classList.add('hide'));
   document.querySelectorAll('.footer_intro-sequence').forEach(target => target.classList.add('hide'));
   document.querySelectorAll('.intro-sequence-header').forEach(target => target.classList.add('hide'));
@@ -142,6 +143,9 @@ function removeFullScreenMedialPlayer() {
   document.querySelectorAll('.radio-group_label').forEach(target => target.classList.add('hide'));
   document.querySelectorAll('.radio-group_label').forEach(target => target.classList.add('hide'));
   document.querySelectorAll('.button-wrapper_enter-site').forEach(target => target.classList.add('hide'));
+  document.querySelectorAll('.header5_background-image-wrapper').forEach(target => target.classList.add('hide'));
+  document.querySelectorAll('.grain.music-player').forEach(target => target.classList.add('hide'));
+  document.querySelectorAll('.header47_gradient').forEach(target => target.classList.add('hide'));
 }
     
 document.addEventListener('DOMContentLoaded', () => {
