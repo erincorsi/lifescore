@@ -228,19 +228,9 @@ function formatText(text) {
   }
 }
 
-let audioHasBeenPlayed = false;
-
 function updateDisplay() {
-  let currentDisplay = document.querySelector(".music-player_card-lower");
   const moodDisplay = document.getElementById("mood-display");
   const moduleDisplay = document.getElementById("module-display");
-
-  // Hide currentDisplay if audio has not been played
-  if (!audioHasBeenPlayed) {
-    currentDisplay.style.display = "none";
-  } else {
-    currentDisplay.style.display = "block";
-  }
 
   let formattedMood = formatText(selectedMood);
 
@@ -249,15 +239,6 @@ function updateDisplay() {
     let formattedModule = formatText(selectedModule);
     moduleDisplay.textContent = `${formattedModule}`;
   }
-
-  moodDisplay.textContent = `${formattedMood}`;
-}
-
-// Update the `audioHasBeenPlayed` flag once the audio starts playing
-audio.addEventListener("play", function () {
-  audioHasBeenPlayed = true;
-  updateDisplay();
-});
 
 let togglePlaybackButton = document.getElementById("toggle-playback");
 let playIcon = document.getElementById("play-icon");
