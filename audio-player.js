@@ -240,16 +240,19 @@ function updateDisplay() {
     moduleDisplay.textContent = `${formattedModule}`;
   }
 
+  moodDisplay.textContent = `${formattedMood}`;
+}
+
+
 let togglePlaybackButton = document.getElementById("toggle-playback");
 let playIcon = document.getElementById("play-icon");
 let pauseIcon = document.getElementById("pause-icon");
-let animationElement = document.getElementById("animation-element");
-
 
 // Check if the audio is currently playing
 function isAudioPlaying(audio) {
   return !audio.paused;
 }
+
 
 // Set initial states
 animationElement.style.display = "block";
