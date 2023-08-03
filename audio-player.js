@@ -19,13 +19,13 @@ const audioMap = {
     },
     meaningful_thoughts: {
       forest:
-        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Forest.mp3",
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20Forest.mp3",
       ocean:
-        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Ocean.mp3",
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20Ocean.mp3",
       mountain:
-        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Mountain.mp3",
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20Mountain.mp3",
       cavern:
-        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_GlassBeadGame%20%2B%20Cavern.mp3"
+        "https://s3.eu-west-2.amazonaws.com/lifescoremusic.com-assets/assets%2FFOCUS%20%2B%20EV%2FFOCUS_MeaningfulThoughts%20%2B%20Cavern.mp3"
     },
     pen_to_paper: {
       forest:
