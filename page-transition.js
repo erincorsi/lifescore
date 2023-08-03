@@ -127,26 +127,21 @@ function showMediaPlayer() {
 // Removes is-intro and is-full -screen classes from media player so that only the small music player shows
 function removeFullScreenMedialPlayer() {
   document.querySelectorAll('.tooltip2_component').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.music-player_wrapper').forEach(target => target.classList.remove('is-full-screen'));	
+  document.querySelectorAll('.fs-form_block').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.fs-radio_column').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.menu-trigger').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.music-player_card-playing').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.fs-form_block').forEach(target => target.classList.remove('is-full-screen'));
+  document.querySelectorAll('.fs-form_block').forEach(target => target.classList.remove('quiz_radio-field'));
+  document.querySelectorAll('.radio-label').forEach(target => target.classList.remove('quiz_radio-field'));
   document.querySelectorAll('.lifescore_logo-wrapper').forEach(target => target.classList.add('hide'));
-  document.querySelectorAll('.music-player_wrapper').forEach(target => target.classList.remove('is-intro-sequence'));
-  document.querySelectorAll('.fs-form_block').forEach(target => target.classList.remove('is-intro-sequence'));
-  document.querySelectorAll('.plus-text').forEach(target => target.classList.remove('hide'));
-  document.querySelectorAll('.fs-radio-group_label').forEach(target => target.classList.remove('is-intro-sequence'));
-  document.querySelectorAll('.fs-radio_column').forEach(target => target.classList.remove('is-intro-sequence'));
-  document.querySelectorAll('.fs-radio_label-1').forEach(target => target.classList.remove('is-intro-sequence'));
-  document.querySelectorAll('.gu-button-alternate').forEach(target => target.classList.add('hide'));
-  document.querySelectorAll('.fs-style_block-header').forEach(target => target.classList.remove('is-intro-sequence'));
-  document.querySelectorAll('.intro-sequence-bg').forEach(target => target.classList.add('hide'));
   document.querySelectorAll('.footer_intro-sequence').forEach(target => target.classList.add('hide'));
-  document.querySelectorAll('.plus-text').forEach(target => target.classList.add('hide'));
-  document.querySelectorAll('.grain.is-intro-sequence').forEach(target => target.classList.add('hide'));
-  document.querySelectorAll('.quiz_radio-field').forEach(target => target.classList.add('fs-radio_field'));
-  document.querySelectorAll('.quiz_radio-field.fs-radio_field').forEach(target => target.classList.remove('quiz_radio-field'));
-  document.querySelectorAll('.music-player_card-playing.is-intro-sequence').forEach(target => target.classList.remove('.is-intro-sequence'));       
-  document.querySelectorAll('.field-label.is-intro-sequence').forEach(target => target.classList.remove('.is-intro-sequence'));        
-  document.querySelectorAll('.menu-trigger.is-intro-sequence').forEach(target => target.classList.remove('.is-intro-sequence'));        
   document.querySelectorAll('.intro-sequence-header').forEach(target => target.classList.add('hide'));
-  document.querySelectorAll('.fs-grid_block').forEach(target => target.classList.add('grid_block-hide')); 
+  document.querySelectorAll('.plus-text').forEach(target => target.classList.add('hide'));
+  document.querySelectorAll('.radio-group_label').forEach(target => target.classList.add('hide'));
+  document.querySelectorAll('.radio-group_label').forEach(target => target.classList.add('hide'));
+  document.querySelectorAll('.button-wrapper_enter-site').forEach(target => target.classList.add('hide'));
 }
     
 document.addEventListener('DOMContentLoaded', () => {
@@ -170,12 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // when the DOM is ready
 document.addEventListener("DOMContentLoaded", function() { 
   // get the the span element
-  const yrSpan = document.querySelector('.hack14-year');
+  const yrSpan = document.querySelector('.current-year');
   // get the current year
   const currentYr = new Date().getFullYear();
   // set the year span element's text to the current year
   yrSpan.textContent = currentYr;
 });
-
-<!-- [Attributes by Finsweet] CMS Slider -->
-<script async src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsslider@1/cmsslider.js"></script>
