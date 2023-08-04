@@ -230,14 +230,14 @@ function formatText(text) {
 
 function updateDisplay() {
   const moodDisplay = document.getElementById("mood-display");
-  const moduleDisplay = document.getElementById("module-display");
+  const environmentDisplay = document.getElementById("environment-display");
 
   let formattedMood = formatText(selectedMood);
 
   // Call formatText only when updating moduleDisplay
   if (selectedModule) {
-    let formattedModule = formatText(selectedModule);
-    moduleDisplay.textContent = `${formattedModule}`;
+    let formattedEnvironment = formatText(selectedEnvironment);
+    environmentDisplay.textContent = `${formattedEnvironment}`;
   }
 
   moodDisplay.textContent = `${formattedMood}`;
