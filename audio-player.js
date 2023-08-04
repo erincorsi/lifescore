@@ -230,17 +230,18 @@ function formatText(text) {
 
 function updateDisplay() {
   const moodDisplay = document.getElementById("mood-display");
-  const moduleDisplay = document.getElementById("module-display");
+  const environmentDisplay = document.getElementById("environment-display");
 
+  if (selectedModule && selectedMood) {
   let formattedMood = formatText(selectedMood);
-
-  // Call formatText only when updating moduleDisplay
-  if (selectedModule) {
-    let formattedModule = formatText(selectedModule);
-    moduleDisplay.textContent = `${formattedModule}`;
+    moodDisplay.textContent = `${formattedMood}`;
   }
 
-  moodDisplay.textContent = `${formattedMood}`;
+  // Call formatText only when updating moduleDisplay
+  if (selectedModule && selectedEnvironment) {
+    let formattedEnvironment = formatText(selectedEnvironment);
+    environmentDisplay.textContent = `${formattedEnvironment}`;
+  }
 }
 
 
