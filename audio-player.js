@@ -257,9 +257,9 @@ function isAudioPlaying(audio) {
 }
 
 // Set initial states
-animationElement.style.display = "block";
+animationElement.style.display = "none";
 pauseIcon.style.display = "none";
-playIcon.style.display = "none";
+playIcon.style.display = "block";
 
 
 // Attach a click event listener to the button
@@ -287,11 +287,22 @@ togglePlaybackButton.addEventListener("click", function () {
 
 // Attach a hover event listener to the animation element
 animationElement.addEventListener("mouseover", function () {
-  // On hover, hide the animation and show the pause button
-  animationElement.style.display = "none";
-  pauseIcon.style.display = "block";
-  gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 1 });
-  gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
+  if(isAudioPlaying(audio)) {
+    // On hover, hide the animation and show the pause button
+    animationElement.style.display = "none";
+    pauseIcon.style.display = "block";
+    playIcon.style.display = "none";
+    gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 1 });
+    gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
+  }
+  else {
+    // On hover, hide the animation and show the play button
+    animationElement.style.display = "none";
+    playIcon.style.display = "block";
+    pauseIcon.style.display = "none";
+    gsap.to(playIcon, { duration: 0.5, autoAlpha: 1 });
+    gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
+  }
 });
 
 // Attach a mouseout event listener to the pause button
@@ -300,7 +311,16 @@ pauseIcon.addEventListener("mouseout", function () {
   if (isAudioPlaying(audio)) {
     pauseIcon.style.display = "none";
     animationElement.style.display = "block";
+    playIcon.style.display = "none";
     gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 0, delay: 0.2 });
     gsap.to(animationElement, { duration: 0.5, autoAlpha: 1, delay: 0.2 });
+  }
+  // If the audio is paused, hide the pause button and show the play button
+  else {
+    pauseIcon.style.display = "none";
+    playIcon.style.display = "block";
+    animationElement.style.display = "none";
+    gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 0, delay: 0.2 });
+    gsap.to(playIcon, { duration: 0.5, autoAlpha: 1, delay: 0.2 });
   }
 });
