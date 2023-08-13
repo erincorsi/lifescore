@@ -296,10 +296,6 @@ function isVisible(element) {
 
 // Attach a hover event listener to the animation element
 animationElement.addEventListener("mouseover", function () {
-  // Only process if animationElement is visible
-  if (!isVisible(animationElement)) {
-    return;
-  }
 
   if (isAudioPlaying(audio)) {
     // On hover, hide the animation and show the pause button
@@ -320,10 +316,6 @@ animationElement.addEventListener("mouseover", function () {
 
 // Attach a mouseout event listener to the pause button
 pauseIcon.addEventListener("mouseout", function () {
-  // Only process if pauseIcon is visible
-  if (!isVisible(pauseIcon)) {
-     return;
-  }
 
   // If the audio is playing, hide the pause button and show the animation
   if (isAudioPlaying(audio)) {
