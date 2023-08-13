@@ -249,6 +249,10 @@ let togglePlaybackButton = document.getElementById("toggle-playback");
 let playIcon = document.getElementById("play-icon");
 let pauseIcon = document.getElementById("pause-icon");
 let animationElement = document.getElementById("animation-element");
+playIcon.classList.add("play-icon");
+playIcon.classList.remove("pause-icon");
+pauseIcon.classList.add("pause-icon");
+pauseIcon.classList.remove("play-icon");
 
 
 // Check if the audio is currently playing
@@ -302,8 +306,8 @@ animationElement.addEventListener("mouseover", function () {
     animationElement.style.display = "none";
     pauseIcon.style.display = "block";
     playIcon.style.display = "none";
-    gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 1 });
-    gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
+    //gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 1 });
+    //gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
   } else {
     // On hover, hide the animation and show the play button
     animationElement.style.display = "none";
@@ -326,8 +330,8 @@ pauseIcon.addEventListener("mouseout", function () {
     pauseIcon.style.display = "none";
     animationElement.style.display = "block";
     playIcon.style.display = "none";
-    gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 0, delay: 0.2 });
-    gsap.to(animationElement, { duration: 0.5, autoAlpha: 1, delay: 0.2 });
+    //gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 0, delay: 0.2 });
+    //gsap.to(animationElement, { duration: 0.5, autoAlpha: 1, delay: 0.2 });
   }
   // If the audio is paused, hide the pause button and show the play button
   else {
