@@ -285,17 +285,26 @@ togglePlaybackButton.addEventListener("click", function () {
   }
 });
 
+// Function to check visibility of an element
+function isVisible(element) {
+  return window.getComputedStyle(element).display !== "none";
+}
+
 // Attach a hover event listener to the animation element
 animationElement.addEventListener("mouseover", function () {
-  if(isAudioPlaying(audio)) {
+  // Only process if animationElement is visible
+  if (!isVisible(animationElement)) {
+    return;
+  }
+
+  if (isAudioPlaying(audio)) {
     // On hover, hide the animation and show the pause button
     animationElement.style.display = "none";
     pauseIcon.style.display = "block";
     playIcon.style.display = "none";
     gsap.to(pauseIcon, { duration: 0.5, autoAlpha: 1 });
     gsap.to(animationElement, { duration: 0.5, autoAlpha: 0 });
-  }
-  else {
+  } else {
     // On hover, hide the animation and show the play button
     animationElement.style.display = "none";
     playIcon.style.display = "block";
@@ -307,6 +316,11 @@ animationElement.addEventListener("mouseover", function () {
 
 // Attach a mouseout event listener to the pause button
 pauseIcon.addEventListener("mouseout", function () {
+  // Only process if pauseIcon is visible
+  if (!isVisible(pauseIcon)) {
+     return;
+  }
+
   // If the audio is playing, hide the pause button and show the animation
   if (isAudioPlaying(audio)) {
     pauseIcon.style.display = "none";
